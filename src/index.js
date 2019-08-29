@@ -1,17 +1,76 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+//import App from './App';
 import './index.css';
 
-function tick() {
-    const element = (
-        <div>
-            <h1>Hello, World!</h1>
-            <h2>Today's date is {new Date().toLocaleDateString()}.</h2>
-            <h2>It Is {new Date().toLocaleTimeString()}.</h2>
-        </div>
-    );
-    ReactDOM.render(element, document.getElementById('root'));
+function Welcome(props) {
+    return <h1>Hello, {props.name}</h1>
 }
 
-setInterval(tick, 1000);
+function App() {
+    return(
+      <div>
+          <Welcome name="Rebecca Rose"/>
+          <Welcome name="Danica Moore"/>
+      </div>
+    );
+}
+
+function formatDate(date) {
+    return date.toLocaleDateString();
+}
+
+function Avatar(props) {
+    return(
+        <img className="Avatar"
+             src={props.user.avatarUrl}
+             alt={props.user.name}
+        />
+    );
+}
+
+function UserInfo(props) {
+    return (
+      <div className="UserInfo">
+          <Avatar user={props.user}/>
+          <div className="UserInfo-name">
+              {props.user.name}
+          </div>
+      </div>
+    );
+}
+
+function Comment(props) {
+    return(
+      <div className="Comment">
+          <UserInfo user={props.author}/>
+          <div className="Comment-Text">
+              {props.text}
+          </div>
+          <div className="Comment-date">
+              {formatDate(props.date)}
+          </div>
+      </div>
+    );
+}
+
+const comment = {
+        date: new Date(),
+        text: 'I hope you enjoy learning React!',
+        author: {
+            name: 'Hello Kitty',
+            avatarUrl: 'https://placekitten.com/g/64/64',
+        }
+};
+
+ReactDOM.render(
+    //<App />,
+    <Comment
+        date={comment.date}
+        text={comment.text}
+        author={comment.author}
+    />,
+    document.getElementById('root')
+);
+
+
