@@ -1,76 +1,99 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-//import App from './App';
 import './index.css';
+import App from './App';
 
-function Welcome(props) {
-    return <h1>Hello, {props.name}</h1>
+class Toggle extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {isToggleOn: true};
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick(){
+        this.setState(state =>({
+            isToggleOn: !state.isToggleOn
+        }));
+    }
+    render(){
+        return(
+            <button onClick={this.handleClick}>
+                {this.state.isToggleOn ? 'ON' : 'OFF'}
+            </button>
+        )
+    }
+
 }
 
-function App() {
-    return(
-      <div>
-          <Welcome name="Rebecca Rose"/>
-          <Welcome name="Danica Moore"/>
-      </div>
-    );
+function UserGreeting(props) {
+    return <h1>Welcome back!</h1>
 }
 
-function formatDate(date) {
-    return date.toLocaleDateString();
+function GuestGreeting(props){
+    return <h1>Please sign up.</h1>
 }
 
-function Avatar(props) {
-    return(
-        <img className="Avatar"
-             src={props.user.avatarUrl}
-             alt={props.user.name}
-        />
-    );
+function Greeting(props) {
+    const isLoggedIn = props.isLoggedIn;
+    if (isLoggedIn) {
+        return <UserGreeting/>
+    }
+    return <GuestGreeting/>
 }
 
-function UserInfo(props) {
+function LoginButton(props) {
     return (
-      <div className="UserInfo">
-          <Avatar user={props.user}/>
-          <div className="UserInfo-name">
-              {props.user.name}
-          </div>
-      </div>
+        <button onClick={props.onClick}>
+            Login
+        </button>
     );
 }
 
-function Comment(props) {
-    return(
-      <div className="Comment">
-          <UserInfo user={props.author}/>
-          <div className="Comment-Text">
-              {props.text}
-          </div>
-          <div className="Comment-date">
-              {formatDate(props.date)}
-          </div>
-      </div>
+function LogoutButton(props) {
+    return (
+        <button onClick={props.onClick}>
+            Logout
+        </button>
     );
 }
 
-const comment = {
-        date: new Date(),
-        text: 'I hope you enjoy learning React!',
-        author: {
-            name: 'Hello Kitty',
-            avatarUrl: 'https://placekitten.com/g/64/64',
+class LoginControl extends React.Component {
+    constructor(props) {
+        super(props);
+        this.handleLoginClick = this.handleLoginClick.bind(this);
+        this.handleLogoutClick = this.handleLogoutClick.bind(this);
+        this.state = {isLoggedIn: false};
+    }
+
+    handleLoginClick() {
+        this.setState({isLoggedIn: true});
+    }
+
+    handleLogoutClick() {
+        this.setState({isLoggedIn: false});
+    }
+
+    render() {
+        const isLoggedIn = this.state.isLoggedIn;
+        let button;
+
+        if (isLoggedIn) {
+            button = <LogoutButton onClick={this.handleLogoutClick} />;
+        } else {
+            button = <LoginButton onClick={this.handleLoginClick} />;
         }
-};
+
+        return (
+            <div>
+                <Greeting isLoggedIn={isLoggedIn}/>
+                {button}
+            </div>
+        );
+    }
+}
+
 
 ReactDOM.render(
-    //<App />,
-    <Comment
-        date={comment.date}
-        text={comment.text}
-        author={comment.author}
-    />,
-    document.getElementById('root')
-);
-
+    <LoginControl />,
+    document.getElementById('root'));
 
