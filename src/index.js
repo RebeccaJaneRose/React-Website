@@ -2,98 +2,28 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import Page from "./WarningBanner";
+import Toggle from "./Toggle";
+import LoginControl from "./LoginControl"
+import MailBox from "./MailBox";
+import NumberList from "./Lists";
+import Blog from "./Blog";
+import NameForm from "./NameForm";
 
-class Toggle extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {isToggleOn: true};
-        this.handleClick = this.handleClick.bind(this);
-    }
-
-    handleClick(){
-        this.setState(state =>({
-            isToggleOn: !state.isToggleOn
-        }));
-    }
-    render(){
-        return(
-            <button onClick={this.handleClick}>
-                {this.state.isToggleOn ? 'ON' : 'OFF'}
-            </button>
-        )
-    }
-
-}
-
-function UserGreeting(props) {
-    return <h1>Welcome back!</h1>
-}
-
-function GuestGreeting(props){
-    return <h1>Please sign up.</h1>
-}
-
-function Greeting(props) {
-    const isLoggedIn = props.isLoggedIn;
-    if (isLoggedIn) {
-        return <UserGreeting/>
-    }
-    return <GuestGreeting/>
-}
-
-function LoginButton(props) {
-    return (
-        <button onClick={props.onClick}>
-            Login
-        </button>
-    );
-}
-
-function LogoutButton(props) {
-    return (
-        <button onClick={props.onClick}>
-            Logout
-        </button>
-    );
-}
-
-class LoginControl extends React.Component {
-    constructor(props) {
-        super(props);
-        this.handleLoginClick = this.handleLoginClick.bind(this);
-        this.handleLogoutClick = this.handleLogoutClick.bind(this);
-        this.state = {isLoggedIn: false};
-    }
-
-    handleLoginClick() {
-        this.setState({isLoggedIn: true});
-    }
-
-    handleLogoutClick() {
-        this.setState({isLoggedIn: false});
-    }
-
-    render() {
-        const isLoggedIn = this.state.isLoggedIn;
-        let button;
-
-        if (isLoggedIn) {
-            button = <LogoutButton onClick={this.handleLogoutClick} />;
-        } else {
-            button = <LoginButton onClick={this.handleLoginClick} />;
-        }
-
-        return (
-            <div>
-                <Greeting isLoggedIn={isLoggedIn}/>
-                {button}
-            </div>
-        );
-    }
-}
-
+const numbers = [1, 2, 3, 4, 5];
+const messages = ['React', 'Re: React', 'Re:Re: React', 'Re:Re:Re: React'];
+const posts = [
+    {id: 1, title: 'Hello World', content: 'Welcome to learning React!'},
+    {id: 2, title: 'Installation', content: 'You can install React from npm.'}
+];
 
 ReactDOM.render(
-    <LoginControl />,
-    document.getElementById('root'));
+   // <LoginControl/>,
+   //  <MailBox unreadMessages={messages}/>,
+   //<Toggle/>
+   // <Page/>,
+   // <NumberList numbers={numbers}/>,
+   // <Blog posts={posts}/>,
+    <NameForm/>,
+   document.getElementById('root'));
 
